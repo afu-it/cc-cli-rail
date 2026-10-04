@@ -11,7 +11,9 @@ Click one to jump back to it. Hide the rail when you need the room.
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 [![Fork of prompt-rail](https://img.shields.io/badge/fork%20of-oikon48%2Fprompt--rail-6e5494)](https://github.com/oikon48/prompt-rail)
 
-<img src="docs/rail.svg" alt="The rail docked beside the transcript: one row per prompt, the prompt being read in bold with a thick tick, a hide button in the bottom-right corner" width="820">
+<a href="docs/demo.mp4"><img src="docs/demo.webp" alt="30-second demo: prompts land in the rail, a click jumps back to one, the rail hides to a button and comes back" width="820"></a>
+
+<sub>Silent preview. <a href="docs/demo.mp4">Watch the MP4</a> with sound.</sub>
 
 </div>
 
@@ -54,6 +56,10 @@ claude plugin disable prompt-rail@oikon48
 ## Hide and show
 
 The rail takes a column of your screen. When you need it back, hide it.
+
+<div align="center">
+<img src="docs/rail.svg" alt="The rail docked beside the transcript: one row per prompt, the prompt being read in bold with a thick tick, a hide button in the bottom-right corner" width="820">
+</div>
 
 <div align="center">
 <img src="docs/hidden.svg" alt="The rail hidden: the transcript takes the full width and a small '« prompts (5)' button sits above the prompt input" width="820">
