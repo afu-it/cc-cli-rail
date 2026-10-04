@@ -1,0 +1,14 @@
+{
+  "name": "afu-it",
+  "owner": { "name": "afu-it" },
+  "metadata": { "description": "afu-it's Claude Code plugins and mods" },
+  "plugins": [
+    {
+      "name": "cc-cli-rail",
+      "source": "./",
+      "description": "A vertical rail of your session's prompts beside the transcript; click to jump, hide it to a button above the prompt. Fork of prompt-rail by oikon48.",
+      "homepage": "https://github.com/afu-it/cc-cli-rail",
+      "repository": "https://github.com/afu-it/cc-cli-rail"
+    }
+  ]
+}

@@ -14,17 +14,23 @@ What changed in this fork:
 
 ## Install
 
+Inside Claude Code:
+
+```
+/plugin marketplace add afu-it/cc-cli-rail
+/plugin install cc-cli-rail@afu-it
+```
+
+Or from your shell:
+
 ```bash
-git clone https://github.com/afu-it/cc-cli-rail ~/.claude/local-plugins/cc-cli-rail
+claude plugin marketplace add afu-it/cc-cli-rail
+claude plugin install cc-cli-rail@afu-it
 ```
 
-Then load it in every session by adding the folder to `~/.claude/settings.json`:
+Start a new session and the rail opens by itself. If the original prompt-rail is installed, disable it (`claude plugin disable prompt-rail@oikon48`) so two rails do not open.
 
-```json
-{ "env": { "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/local-plugins/cc-cli-rail" } }
-```
-
-Or for one session: `claude --plugin-dir ~/.claude/local-plugins/cc-cli-rail`. If the original prompt-rail is installed, disable it (`claude plugin disable prompt-rail@oikon48`) so two rails do not open.
+Needs function hooks (Claude Code 2.1.280+). If the rail does not show, add `{ "env": { "CLAUDE_CODE_ENABLE_FUNCTION_HOOKS": "1" } }` to `~/.claude/settings.json`.
 
 ## Commands
 
@@ -55,4 +61,4 @@ Keybinding example (`~/.claude/keybindings.json`):
 | `─` | Any other prompt |
 | `┄` | A prompt Claude Code refused to scroll to; `next` and `prev` skip it |
 
-Needs function hooks (`CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1`, Claude Code 2.1.280+). Mouse works best with `"tui": "fullscreen"`.
+Mouse works best with `"tui": "fullscreen"`.
