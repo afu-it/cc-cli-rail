@@ -1,16 +1,19 @@
+<div align="center">
+
 # cc-cli-rail
 
-A vertical rail of your prompts beside the Claude Code transcript. Click a prompt to jump back to it. Hide the rail to a small button above the prompt and bring it back with one click.
+**Every prompt of your Claude Code session, in a rail beside the transcript.**
+Click one to jump back to it. Hide the rail when you need the room.
 
-## Credit
+![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757)
+![Claude Code 2.1.280+](https://img.shields.io/badge/Claude%20Code-2.1.280%2B-555)
+![Function hooks](https://img.shields.io/badge/function%20hooks-experimental-orange)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue)
+[![Fork of prompt-rail](https://img.shields.io/badge/fork%20of-oikon48%2Fprompt--rail-6e5494)](https://github.com/oikon48/prompt-rail)
 
-This is a fork of [prompt-rail](https://github.com/oikon48/prompt-rail) by **oikon48**, under the MIT License (see `LICENSE`). The transcript reading, reader tracking and jump logic are oikon48's work.
+<img src="docs/rail.svg" alt="The rail docked beside the transcript: one row per prompt, the prompt being read in bold with a thick tick, a hide button at the top" width="820">
 
-What changed in this fork:
-
-- Vertical only. The horizontal band and the `mode` setting are removed.
-- **Hide / show.** `» hide` at the top of the pane closes it. `« prompts (N)` above the prompt opens it again. Closing the pane from its own close mark hides it the same way. The choice is kept across sessions.
-- A prompt sent mid-turn (ctrl+enter, queued) is no longer listed twice.
+</div>
 
 ## Install
 
@@ -28,37 +31,134 @@ claude plugin marketplace add afu-it/cc-cli-rail
 claude plugin install cc-cli-rail@afu-it
 ```
 
-Start a new session and the rail opens by itself. If the original prompt-rail is installed, disable it (`claude plugin disable prompt-rail@oikon48`) so two rails do not open.
+Start a new session. The rail opens on its own.
 
-Needs function hooks (Claude Code 2.1.280+). If the rail does not show, add `{ "env": { "CLAUDE_CODE_ENABLE_FUNCTION_HOOKS": "1" } }` to `~/.claude/settings.json`.
+> [!NOTE]
+> Function hooks are early access. If the rail does not show, add this to `~/.claude/settings.json` and start a new session:
+>
+> ```json
+> { "env": { "CLAUDE_CODE_ENABLE_FUNCTION_HOOKS": "1" } }
+> ```
+
+> [!TIP]
+> Mouse works best with `"tui": "fullscreen"`. On a narrow window Claude Code may hold the rail back at the start of a session; press `« prompts (N)` above the input to open it.
+
+### Already using prompt-rail?
+
+Turn it off first, or two rails open side by side:
+
+```bash
+claude plugin disable prompt-rail@oikon48
+```
+
+## Hide and show
+
+The rail takes a column of your screen. When you need it back, hide it.
+
+<div align="center">
+<img src="docs/hidden.svg" alt="The rail hidden: the transcript takes the full width and a small '« prompts (5)' button sits above the prompt input" width="820">
+</div>
+
+| To | Do |
+| --- | --- |
+| Hide the rail | Click `» hide` at the top of the rail, or its close mark |
+| Show it again | Click `« prompts (N)` above the prompt input |
+| Toggle from the keyboard | `/cc-cli-rail`, or bind `cc-cli-rail-toggle` to a key |
+
+The rail stays hidden in new sessions until you show it again.
 
 ## Commands
 
-| Command | |
+| Command | What it does |
 | --- | --- |
-| `/cc-cli-rail` or `/cc-cli-rail toggle` | Hide the rail, or show it |
-| `/cc-cli-rail show`, `hide` | Show or hide |
-| `/cc-cli-rail next`, `prev`, `first`, `last` | Jump between prompts |
-| `/cc-cli-rail 12`, `#12` | Jump to prompt #12 |
-| `/cc-cli-rail find <words>` | Jump to the newest prompt holding the words |
-| `/cc-cli-rail-next`, `-prev`, `-toggle` | No argument, for a keybinding |
+| `/cc-cli-rail` | Hide the rail, or show it |
+| `/cc-cli-rail show` · `hide` · `toggle` | Show, hide, or flip it |
+| `/cc-cli-rail next` · `prev` | Jump to the next or previous prompt |
+| `/cc-cli-rail first` · `last` | Jump to the first or newest prompt |
+| `/cc-cli-rail 12` · `#12` | Jump to prompt #12 |
+| `/cc-cli-rail find <words>` | Jump to the newest prompt that holds the words |
+| `/cc-cli-rail-next` · `-prev` · `-toggle` | The same with no argument, for a keybinding |
 
-Keybinding example (`~/.claude/keybindings.json`):
+### Keyboard
+
+Bind the commands in `~/.claude/keybindings.json`. They run mid-turn too. `command:cc-cli-rail-toggle` works the same way on any free key.
 
 ```json
 {
   "bindings": [
-    { "context": "Chat", "bindings": { "ctrl+k": "command:cc-cli-rail-prev", "meta+j": "command:cc-cli-rail-next" } }
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+k": "command:cc-cli-rail-prev",
+        "meta+j": "command:cc-cli-rail-next"
+      }
+    }
   ]
 }
 ```
 
-## Tick legend
+## Reading the rail
 
 | Tick | Meaning |
 | --- | --- |
-| `━` | The prompt you are reading |
+| `━` **bold** | The prompt you are reading now |
 | `─` | Any other prompt |
-| `┄` | A prompt Claude Code refused to scroll to; `next` and `prev` skip it |
+| `┄` | A prompt Claude Code would not scroll to, such as a `/compact` row. `next` and `prev` skip it |
 
-Mouse works best with `"tui": "fullscreen"`.
+The rail follows you as you scroll: the prompt that owns the top row on screen is the one in bold.
+
+## What is different from prompt-rail
+
+| | prompt-rail | cc-cli-rail |
+| --- | --- | --- |
+| Layout | Horizontal bars or vertical pane | Vertical pane only |
+| Hide the rail | `/prompt-rail off` | `» hide` button, close mark, or `/cc-cli-rail` |
+| Bring it back | `/prompt-rail vertical` | `« prompts (N)` button above the prompt |
+| Prompt sent mid-turn (ctrl+enter, queued) | Can show twice, the copy dotted | Shows once |
+| Setting in `/config` | Rail mode row | None; the hidden or shown choice is remembered |
+
+<details>
+<summary><b>How it works</b></summary>
+
+<br>
+
+```mermaid
+flowchart LR
+  T[transcript .jsonl] -->|every prompt on the live branch| R[rail]
+  S[rows on screen] -->|topmost row's prompt| R
+  R -->|click, next/prev| J[scroll that prompt's row into view]
+```
+
+The rail lists the prompts of the live branch, so prompts abandoned with `/rewind` drop out, and prompts from before a resume are listed too. A prompt drawn on screen before the transcript stores it is matched to its stored row, and dropped once the file lists the same text. The transcript is read again only when its size or time changed.
+
+</details>
+
+<details>
+<summary><b>Known limits</b></summary>
+
+<br>
+
+- Function hooks are early access, and their API may change between Claude Code releases.
+- The Claude desktop app cannot scroll its transcript for a plugin, so a click there does not jump.
+- The dock width is shared by all plugin panes. Drag its edge to narrow it, down to 24 columns. Below 12 columns the rail shows ticks only, and hovering one shows its prompt above the input.
+- A `/compact` row cannot be jumped to. Its tick turns dotted after the first try.
+- Near the end of the transcript, `next` cannot scroll further.
+
+</details>
+
+## Development
+
+```bash
+git clone https://github.com/afu-it/cc-cli-rail
+claude --plugin-dir cc-cli-rail      # load this checkout; saving a file reloads it
+claude plugin validate cc-cli-rail
+claude plugin test cc-cli-rail       # 101 tests
+```
+
+## Credit
+
+cc-cli-rail is a fork of **[prompt-rail](https://github.com/oikon48/prompt-rail) by [oikon48](https://github.com/oikon48)**. The transcript reading, the tracking of what you are reading, and the jump logic are oikon48's work. Thank you.
+
+## License
+
+[MIT](LICENSE). Copyright (c) 2026 oikon48, with changes by afu-it.

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="440" viewBox="0 0 880 440" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+  <title>cc-cli-rail: the rail hidden to a button above the prompt</title>
+  <rect width="880" height="440" rx="12" fill="#1a1a1a"/>
+  <rect width="880" height="34" rx="12" fill="#262626"/>
+  <rect y="22" width="880" height="12" fill="#262626"/>
+  <circle cx="22" cy="17" r="6" fill="#ff5f57"/>
+  <circle cx="42" cy="17" r="6" fill="#febc2e"/>
+  <circle cx="62" cy="17" r="6" fill="#28c840"/>
+  <text x="440" y="22" fill="#8a8a8a" text-anchor="middle" font-size="12">claude — ~/projects/shop-api</text>
+
+  <!-- transcript, full width -->
+  <rect x="20" y="52" width="840" height="26" rx="4" fill="#2d2d2d"/>
+  <text x="32" y="70" fill="#e6e6e6"><tspan fill="#8a8a8a">&gt; </tspan>why is the build slow?</text>
+  <text x="32" y="104" fill="#d97757">●</text>
+  <text x="50" y="104" fill="#d4d4d4">The install step runs on every build. Nothing is cached, so each run</text>
+  <text x="50" y="124" fill="#d4d4d4">downloads 1,400 packages again.</text>
+  <text x="32" y="156" fill="#d97757">●</text>
+  <text x="50" y="156" fill="#d4d4d4">Read(<tspan fill="#9cdcfe">.github/workflows/ci.yml</tspan>)</text>
+  <text x="50" y="176" fill="#8a8a8a">  ⎿  Read 64 lines</text>
+  <text x="32" y="208" fill="#d97757">●</text>
+  <text x="50" y="208" fill="#d4d4d4">Caching the deps folder by lockfile hash should cut the build from</text>
+  <text x="50" y="228" fill="#d4d4d4">6m 10s to about 1m 40s.</text>
+  <rect x="20" y="252" width="840" height="26" rx="4" fill="#2d2d2d"/>
+  <text x="32" y="270" fill="#e6e6e6"><tspan fill="#8a8a8a">&gt; </tspan>cache the deps step</text>
+  <text x="32" y="304" fill="#d97757">●</text>
+  <text x="50" y="304" fill="#d4d4d4">Update(<tspan fill="#9cdcfe">.github/workflows/ci.yml</tspan>)</text>
+  <text x="50" y="324" fill="#8a8a8a">  ⎿  Added 6 lines</text>
+
+  <!-- the band's button -->
+  <rect x="736" y="334" width="124" height="22" rx="3" fill="#2a2a3a"/>
+  <text x="852" y="350" fill="#c8c8ff" text-anchor="end">« prompts (5)</text>
+
+  <!-- prompt box -->
+  <rect x="20" y="364" width="840" height="44" rx="6" fill="none" stroke="#4a4a4a"/>
+  <text x="34" y="391" fill="#8a8a8a">&gt; <tspan fill="#5a5a5a">Type a message</tspan></text>
+</svg>
