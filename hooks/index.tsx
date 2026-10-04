@@ -1277,23 +1277,26 @@ export const register: Register = on => {
     const hide = (
       <Button key={HIDE_ELEMENT} plain dimColor label={hasRoom ? ' » hide' : ' » '} hover={{ scope: HIDE_ELEMENT, inverse: true, dimColor: false }} onPress={() => {}} />
     )
+    // The hide button sits on the bottom-right cell of the body's window, over
+    // whatever row is drawn there (AFU 4/10). The column fills the window so
+    // the corner exists when the list is short; on a long list it follows the
+    // window down.
+    const { offset, bodyRows } = e.props.scroll
+    const framed = (body: ReturnType<typeof Box>) => (
+      <Box flexDirection="column" minHeight={bodyRows}>
+        {body}
+        <Box key={`${HIDE_ELEMENT}-corner`} position="absolute" top={offset + Math.max(0, bodyRows - 1)} right={0}>
+          {hide}
+        </Box>
+      </Box>
+    )
     // The rail lists the main conversation's prompts, which a subagent's
     // transcript does not hold, so pressing one there could not scroll to it.
     if (e.props.view.agentId !== undefined) {
-      return (
-        <Box flexDirection="column">
-          {hide}
-          <Text dimColor wrap="truncate-end">{hasRoom ? 'Prompts of the main conversation only' : '·'}</Text>
-        </Box>
-      )
+      return framed(<Text dimColor wrap="truncate-end">{hasRoom ? 'Prompts of the main conversation only' : '·'}</Text>)
     }
     if (entries.length === 0) {
-      return (
-        <Box flexDirection="column">
-          {hide}
-          <Text dimColor>{isRail && !hasRoom ? '·' : 'No prompts yet'}</Text>
-        </Box>
-      )
+      return framed(<Text dimColor>{isRail && !hasRoom ? '·' : 'No prompts yet'}</Text>)
     }
     const current = currentIndex()
     drawnCurrent = current
@@ -1301,9 +1304,8 @@ export const register: Register = on => {
     // whole row pressable. Too narrow for text, ticks alone (the band shows it).
     if (isRail) {
       const width = Math.max(4, e.props.bodyColumns - 4)
-      return (
+      return framed(
         <Box flexDirection="column">
-          {hide}
           {entries.map((entry, i) => (
             <Button
               key={`jump-${i}`}
@@ -1323,9 +1325,8 @@ export const register: Register = on => {
     }
     // Elsewhere (inline, or a surface with no band for the card): list the text.
     const width = Math.max(8, e.props.bodyColumns - 3)
-    return (
+    return framed(
       <Box flexDirection="column">
-        {hide}
         {entries.map((entry, i) => (
           <Button
             key={`jump-${i}`}

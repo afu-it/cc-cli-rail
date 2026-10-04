@@ -11,7 +11,7 @@ Click one to jump back to it. Hide the rail when you need the room.
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 [![Fork of prompt-rail](https://img.shields.io/badge/fork%20of-oikon48%2Fprompt--rail-6e5494)](https://github.com/oikon48/prompt-rail)
 
-<img src="docs/rail.svg" alt="The rail docked beside the transcript: one row per prompt, the prompt being read in bold with a thick tick, a hide button at the top" width="820">
+<img src="docs/rail.svg" alt="The rail docked beside the transcript: one row per prompt, the prompt being read in bold with a thick tick, a hide button in the bottom-right corner" width="820">
 
 </div>
 
@@ -61,7 +61,7 @@ The rail takes a column of your screen. When you need it back, hide it.
 
 | To | Do |
 | --- | --- |
-| Hide the rail | Click `» hide` at the top of the rail, or its close mark |
+| Hide the rail | Click `» hide` in the bottom-right corner of the rail, or its close mark |
 | Show it again | Click `« prompts (N)` above the prompt input |
 | Toggle from the keyboard | `/cc-cli-rail`, or bind `cc-cli-rail-toggle` to a key |
 

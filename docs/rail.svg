@@ -32,12 +32,12 @@
 
   <!-- docked rail -->
   <line x1="600" y1="46" x2="600" y2="420" stroke="#5b5bd6" stroke-width="2"/>
-  <text x="620" y="70" fill="#8a8a8a">» hide</text>
-  <text x="620" y="102" fill="#8a8a8a">─ fix the login redirect</text>
-  <text x="620" y="126" fill="#8a8a8a">─ add a test for it</text>
-  <rect x="612" y="134" width="252" height="24" rx="3" fill="#2a2a3a"/>
-  <text x="620" y="151" fill="#ffffff" font-weight="bold">━ why is the build slow?</text>
-  <text x="620" y="176" fill="#8a8a8a">─ cache the deps step</text>
-  <text x="620" y="200" fill="#8a8a8a">┄ /compact</text>
-  <text x="620" y="236" fill="#5a5a5a" font-size="12">click a row to jump to it</text>
+  <text x="620" y="70" fill="#8a8a8a">─ fix the login redirect</text>
+  <text x="620" y="94" fill="#8a8a8a">─ add a test for it</text>
+  <rect x="612" y="102" width="252" height="24" rx="3" fill="#2a2a3a"/>
+  <text x="620" y="119" fill="#ffffff" font-weight="bold">━ why is the build slow?</text>
+  <text x="620" y="144" fill="#8a8a8a">─ cache the deps step</text>
+  <text x="620" y="168" fill="#8a8a8a">┄ /compact</text>
+  <text x="620" y="204" fill="#5a5a5a" font-size="12">click a row to jump to it</text>
+  <text x="864" y="412" fill="#8a8a8a" text-anchor="end">» hide</text>
 </svg>

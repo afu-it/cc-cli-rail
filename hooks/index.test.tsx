@@ -1575,17 +1575,21 @@ const shownRail = async ($: any, on: any) => {
   return { disk, store, clock, rail, above }
 }
 
-test('the pane leads with a button that hides the rail', async ($, on) => {
+test('the pane keeps its hide button on the bottom-right corner, over the rows', async ($, on) => {
   await drawPrompts($, on)
-  for (const [props, label] of [
-    [pane('dock', 40), ' » hide'],
-    [pane('dock', 4), ' » '],
-    [{ ...pane('dock', 40), view: { agentId: 'ag1' } }, ' » hide'],
+  for (const [props, label, top] of [
+    [pane('dock', 40), ' » hide', 19],
+    [pane('dock', 4), ' » ', 19],
+    [{ ...pane('dock', 40), view: { agentId: 'ag1' } }, ' » hide', 19],
+    // Scrolled down a long list: the corner follows the window.
+    [{ ...pane('dock', 40), scroll: { offset: 5, bodyRows: 20 } }, ' » hide', 24],
   ] as const) {
     const site = await dock($, props)
-    const [first] = await site.findAll({ type: 'Button' })
-    expect(first?.key).toBe('rail-hide')
-    expect(first?.props.label).toBe(label)
+    const corner = await site.find({ key: 'rail-hide-corner' })
+    expect(corner?.props.position).toBe('absolute')
+    expect(corner?.props.top).toBe(top)
+    expect(corner?.props.right).toBe(0)
+    expect((await site.find({ key: 'rail-hide' }))?.props.label).toBe(label)
     await site.unmount()
   }
 })
